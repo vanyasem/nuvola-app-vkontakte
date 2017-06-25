@@ -42,6 +42,8 @@ WebApp._onInitWebWorker = function(emitter)
 {
     Nuvola.WebApp._onInitWebWorker.call(this, emitter);
 
+    this.state = PlaybackState.UNKNOWN;
+
     var state = document.readyState;
     if (state === "interactive" || state === "complete")
         this._onPageReady();
@@ -54,7 +56,6 @@ WebApp._onPageReady = function()
 {
     // Connect handler for signal ActionActivated
     Nuvola.actions.connect("ActionActivated", this);
-
     // Start update routine
     this.update();
 }
@@ -62,6 +63,9 @@ WebApp._onPageReady = function()
 // Extract data from the web page
 WebApp.update = function()
 {
+
+    this.state = PlaybackState.UNKNOWN;
+
     var track = {
         title: null,
         artist: null,
@@ -70,8 +74,16 @@ WebApp.update = function()
         rating: null
     }
 
+    var title = document.getElementsByClassName('audio_page_player_title_song')[0].innerText;
+    track.title = title.substring(3, title.length);
+    track.artist = document.getElementsByClassName('audio_page_player_title_performer')[0].innerText;
+
     player.setTrack(track);
-    player.setPlaybackState(PlaybackState.UNKNOWN);
+    player.setPlaybackState(this.state);
+    player.setCanPause(this.state === PlaybackState.PLAYING);
+    player.setCanPlay(this.state === PlaybackState.PAUSED || this.state === PlaybackState.UNKNOWN);
+    player.setCanGoPrev(true);
+    player.setCanGoNext(true);
 
     // Schedule the next update
     setTimeout(this.update.bind(this), 500);
@@ -80,8 +92,60 @@ WebApp.update = function()
 // Handler of playback actions
 WebApp._onActionActivated = function(emitter, name, param)
 {
+    var prevSong = this._getGoPrevButton();
+    var nextSong = this._getGoNextButton();
+    var playPause = this._getPlayPauseButton();
+
+    switch (name) {
+        /* Base media player actions */
+        case PlayerAction.TOGGLE_PLAY:
+            playPause.click();
+            break;
+        case PlayerAction.PLAY:
+            if (this.state !== PlaybackState.PLAYING)
+                playPause.click();
+            break;
+        case PlayerAction.PAUSE:
+        case PlayerAction.STOP:
+            if (this.state === PlaybackState.PLAYING)
+                playPause.click();
+            break;
+        case PlayerAction.PREV_SONG:
+            if (prevSong)
+                prevSong.click();
+            break;
+        case PlayerAction.NEXT_SONG:
+            if (nextSong)
+                nextSong.click();
+            break;
+    }
+}
+
+WebApp._getButton = function(id)
+{
+    return document.getElementsByClassName(id)[0];
+}
+
+WebApp._getPlayPauseButton = function()
+{
+    return this._getButton("top_audio_player_play");
+}
+
+WebApp._getGoPrevButton = function()
+{
+    return this._getButton("top_audio_player_prev");
+}
+
+WebApp._getGoNextButton = function()
+{
+    return this._getButton("top_audio_player_next");
+}
+
+WebApp._getShuffleButton = function()
+{
+    return this._getButton("audio_page_player_shuffle");
 }
 
 WebApp.start();
 
-})(this);  // function(Nuvola)
+})(this);

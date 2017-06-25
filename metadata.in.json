@@ -1,7 +1,7 @@
 {
     "id": "vkontakte", 
     "name": "VKontakte",
-    "home_url": "nuvola://home.html", 
+    "home_url": "https://vk.com/audio",
     "maintainer_name": "Ivan Semkin", 
     "maintainer_link": "https://github.com/vanyasem", 
     "version_major": 1, 

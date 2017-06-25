@@ -1,7 +1,7 @@
-Contributing to Vkontakte script
+Contributing to VKontakte script
 ==================================
 
-:+1::tada: It seems you would like to contribute to the Vkontakte script for Nuvola Player.
+:+1::tada: It seems you would like to contribute to the VKontakte script for Nuvola Player.
 Great to have you here. Here are a few ways you can help make this script better! :tada::+1:
 
 Support & Bug Reporting

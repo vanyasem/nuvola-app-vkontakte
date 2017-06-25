@@ -1,13 +1,13 @@
-Vkontakte Nuvola Player App
+VKontakte Nuvola Player App
 =============================
 
-Integration of Vkontakte into your linux desktop via
+Integration of VKontakte into your linux desktop via
 [Nuvola Player](https://github.com/tiliado/nuvolaplayer).
  
 Support
 -------
 
-Report bugs and issues at <https://github.com/tiliado/nuvola-app-vkontakte/issues>.
+Report bugs and issues at <https://github.com/vanyasem/nuvola-app-vkontakte/issues>.
 
 Installation
 ------------

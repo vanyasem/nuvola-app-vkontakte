@@ -1,4 +1,4 @@
-Vkontakte Change Log
+VKontakte Change Log
 ======================
 
 1.1 - unreleased
